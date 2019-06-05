@@ -12,12 +12,13 @@
   <script>
   var app = angular.module('WeatherApp', []);
   app.controller('homeController', function($scope,$http) {
+	  $scope.selectValue='';
 	  $scope.cityName = "London,GB";
 	  var appKey="b362b50a68dfb9ccd1edce74032e2c3b";
 	  $scope.apiWeatherByName="samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22";
 	  var url = "/Test";
 	  $scope.showData=false;
-	  $scope.data1=
+	  $scope.London_GB=
 	  {
 				"coord": {
 					"lon": -0.13,
@@ -60,6 +61,47 @@
 			}
 	  ;
 	  
+	  
+	  $scope.Cairns_AU={
+				"coord": {
+					"lon": 145.77,
+					"lat": -16.92
+				},
+				"weather": [{
+					"id": 802,
+					"main": "Clouds",
+					"description": "scattered clouds",
+					"icon": "03n"
+				}],
+				"base": "stations",
+				"main": {
+					"temp": 300.15,
+					"pressure": 1007,
+					"humidity": 74,
+					"temp_min": 300.15,
+					"temp_max": 300.15
+				},
+				"visibility": 10000,
+				"wind": {
+					"speed": 3.6,
+					"deg": 160
+				},
+				"clouds": {
+					"all": 40
+				},
+				"dt": 1485790200,
+				"sys": {
+					"type": 1,
+					"id": 8166,
+					"message": 0.2064,
+					"country": "AU",
+					"sunrise": 1485720272,
+					"sunset": 1485766550
+				},
+				"id": 2172797,
+				"name": "Cairns",
+				"cod": 200
+			};
 	  $scope.getRequest = function() {
 				 $scope.showData=true;
 		    $http.get(url).then(
@@ -71,10 +113,16 @@
 		      }
 		    ); 
 		    
-		  $scope.response = $scope.data1
-		
+		    
+		  if($scope.selectValue!="" && $scope.selectValue=="2172797"){
+			  $scope.response = $scope.Cairns_AU;
+		  }else if($scope.selectValue!="" && $scope.selectValue=="2643743"){
+		  $scope.response = $scope.London_GB;
+	 		 }
+		  else{
+			  $scope.response = $scope.London_GB;
 		  }
-	 
+	  }
   
   });
   </script>
@@ -87,13 +135,21 @@
 
   <h2>Weather Search</h2>
   <form action="#">
+  <div class="form-group">
+      <label for="sitySelect">Select Your City:</label>
+      <select class="form-control" ng-model='selectValue' id='sitySelect'>
+      <option value=''>Select none</option>
+      <option value='2172797'>Cairns,AU</option>
+      <option value='2643743'>London,GB</option>
+      </select>
+    </div>
+    
     <div class="form-group">
-      <label for="email">Enter Your City:</label>
-      <input type="email" class="form-control" id="city" placeholder="City Name" ng-model="cityName" >
+      <label for="city">Enter Your City:</label>
+      <input type="text" class="form-control" id="city" placeholder="City Name" ng-model="cityName" >
     </div>
     <button type="button" class="btn btn-default" ng-click="getRequest()">Search</button>
   </form>
-  
   
   <div class="row" ng-if="showData">
   <h2>Weather in <b>{{response.name}},{{response.sys.country}}</b></h2>   
