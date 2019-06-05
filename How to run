@@ -1,3 +1,5 @@
 please download the war and run in your tomcat server.
 this war integrated with  auto-config tomcat,and maven 3
 so please wait for downloding maven dependencies.
+go to :localhost:8080
+and check the functionality.
